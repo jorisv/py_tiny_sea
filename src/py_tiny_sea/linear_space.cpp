@@ -31,7 +31,7 @@ stdLinearSpace(const char* name, py::module& m)
     using linear_space = LinearSpace<Unit>;
     py::class_<linear_space>(m, name)
       .def(py::init(&safeMakeLinearSpace<Unit>))
-      .def_static("fromBound", &safeMakeLinearSpaceFromBound<Unit>)
+      .def_static("from_bound", &safeMakeLinearSpaceFromBound<Unit>)
       .def("start", &linear_space::start)
       .def("delta", &linear_space::delta)
       .def("stop", &linear_space::stop)
@@ -53,11 +53,10 @@ initLinearSpace(py::module& m)
       .def_readwrite("index", &LinearSpaceInterpolationResult::index);
 
     stdLinearSpace<latitude_t>("LatitudeLinearSpace", m);
-    stdLinearSpace<latitude_t>("LongitudeLinearSpace", m);
-    stdLinearSpace<latitude_t>("ScaleLinearSpace", m);
-    stdLinearSpace<latitude_t>("MeterLinearSpace", m);
-    stdLinearSpace<latitude_t>("VelocityLinearSpace", m);
-    stdLinearSpace<latitude_t>("RadianLinearSpace", m);
-    stdLinearSpace<latitude_t>("CostLinearSpace", m);
-    stdLinearSpace<latitude_t>("TimeLinearSpace", m);
+    stdLinearSpace<longitude_t>("LongitudeLinearSpace", m);
+    stdLinearSpace<scale_t>("ScaleLinearSpace", m);
+    stdLinearSpace<meter_t>("MeterLinearSpace", m);
+    stdLinearSpace<velocity_t>("VelocityLinearSpace", m);
+    stdLinearSpace<radian_t>("RadianLinearSpace", m);
+    stdLinearSpace<tiny_sea::time_t>("TimeLinearSpace", m);
 }

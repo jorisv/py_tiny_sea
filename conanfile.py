@@ -6,13 +6,14 @@ class PyTinySeaConan(ConanFile):
     version = "0.1.0"
     author = "Joris Vaillant (joris.vaillant@gmail.com)"
     license = "GPL-3.0-only"
-    url = "nullspace.fr:/home/trollboy/py_tiny_sea"
+    url = "https://github.com/jorisv/py_tiny_sea"
     description = "TinySea python binding"
     settings = "os", "compiler", "build_type", "arch"
     requires = (
         "tiny_sea/[^0.1]",
         "pybind11/[^2.4]",
     )
+    default_options = {"tiny_sea:build_tests": False}
     generators = "cmake", "virtualrunenv"
 
     def configure(self):
@@ -25,8 +26,8 @@ class PyTinySeaConan(ConanFile):
 
     def source(self):
         git = tools.Git()
-        # TODO checkout version
         git.clone(self.url)
+        git.checkout("v%s" % self.version)
 
     def build(self):
         cmake = self._configure_cmake()
@@ -37,4 +38,4 @@ class PyTinySeaConan(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.libs = ["pytinysea"]

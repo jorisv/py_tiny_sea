@@ -17,6 +17,7 @@
 // includes
 // pybind11
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 // tiny_sea
 #include <tiny_sea/core/boat_velocity_table.h>

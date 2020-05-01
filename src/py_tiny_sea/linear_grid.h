@@ -31,10 +31,14 @@ stdLinearGrid(const char* name, py::module& m)
     using linear_grid = LinearGrid<XUnit, YUnit, Data, Interp>;
     py::class_<linear_grid>(m, name)
       .def("__getitem__",
-           py::overload_cast<XUnit, YUnit>(&linear_grid::safeAt, py::const_))
-      .def("__getitem__",
-           py::overload_cast<std::size_t, std::size_t>(&linear_grid::safeAt,
-                                                       py::const_))
+           [](const linear_grid& g, std::tuple<XUnit, YUnit> indexes) {
+               return g.safeAt(std::get<0>(indexes), std::get<1>(indexes));
+           })
+      .def(
+        "__getitem__",
+        [](const linear_grid& g, std::tuple<std::size_t, std::size_t> indexes) {
+            return g.safeAt(std::get<0>(indexes), std::get<1>(indexes));
+        })
       .def("interpolated", &linear_grid::safeInterpolated)
       .def("x_space", &linear_grid::xSpace)
       .def("y_space", &linear_grid::ySpace)
@@ -51,8 +55,16 @@ stdLinearGridBuilder(const char* name, py::module& m)
     py::class_<linear_grid_builder>(m, name)
       .def(py::init<x_linear_space, y_linear_space>())
       .def("__getitem__",
-           py::overload_cast<std::size_t, std::size_t>(
-             &linear_grid_builder::safeAt))
+           [](const linear_grid_builder& b,
+              std::tuple<std::size_t, std::size_t> indexes) {
+               return b.safeAt(std::get<0>(indexes), std::get<1>(indexes));
+           })
+      .def("__setitem__",
+           [](linear_grid_builder& b,
+              std::tuple<std::size_t, std::size_t> indexes,
+              const typename linear_grid_builder::value_type& v) {
+               b.safeAt(std::get<0>(indexes), std::get<1>(indexes)) = v;
+           })
       .def("build", &linear_grid_builder::build);
 }
 

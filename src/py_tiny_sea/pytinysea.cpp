@@ -32,6 +32,18 @@ void
 initBoatVelocityTable(py::module& m);
 void
 initWorldMap(py::module& m);
+void
+initGSPState(py::module& m);
+void
+initGSPStateFactory(py::module& m);
+void
+initGSPOpenList(py::module& m);
+void
+initGSPCloseList(py::module& m);
+void
+initGSPNeighborsFinder(py::module& m);
+void
+initGSPGloablShortestPath(py::module& m);
 
 PYBIND11_MODULE(pytinysea, m)
 {
@@ -42,5 +54,13 @@ PYBIND11_MODULE(pytinysea, m)
     initNVector(m);
     initBoatVelocityTable(m);
     initWorldMap(m);
+
+    py::module gsp(m.def_submodule("gsp"));
+    initGSPState(gsp);
+    initGSPStateFactory(gsp);
+    initGSPCloseList(gsp);
+    initGSPOpenList(gsp);
+    initGSPNeighborsFinder(gsp);
+    initGSPGloablShortestPath(gsp);
 }
 

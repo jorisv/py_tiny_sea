@@ -17,22 +17,23 @@
 // includes
 // pybind11
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 // tiny_sea
-#include <tiny_sea/core/n_vector.h>
+#include <tiny_sea/gsp/close_list.h>
 
 namespace py = pybind11;
 using namespace tiny_sea;
 
 void
-initNVector(py::module& m)
+initGSPCloseList(py::module& m)
 {
-    py::class_<NVector>(m, "NVector")
+    py::class_<gsp::CloseList>(m, "CloseList")
       .def(py::init<>())
-      .def(py::init<double, double, double>())
-      .def_static("from_lat_lon", &NVector::fromLatLon)
-      .def("to_lat_lon", &NVector::toLatLon)
-      .def("distance", &NVector::distance)
-      .def("destination", &NVector::destination);
+      .def("contains", &gsp::CloseList::contains)
+      .def("insert", &gsp::CloseList::insert)
+      .def("store", &gsp::CloseList::store);
+
+    py::class_<gsp::CloseList::Iterator>(m, "CloseListIterator");
 }
 

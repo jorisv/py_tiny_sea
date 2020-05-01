@@ -15,6 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 // includes
+// std
+#include <string>
+
 // pybind11
 #include <pybind11/pybind11.h>
 
@@ -31,6 +34,7 @@ stdUnit(const char* name, py::module& m)
     py::class_<Unit>(m, name)
       .def(py::init<>())
       .def(py::init<double>())
+      .def("__repr__", [](const Unit& u) { return std::to_string(u.t); })
       .def_readwrite("t", &Unit::t);
 }
 

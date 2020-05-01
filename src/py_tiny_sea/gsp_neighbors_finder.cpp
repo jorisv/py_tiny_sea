@@ -17,22 +17,28 @@
 // includes
 // pybind11
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 // tiny_sea
-#include <tiny_sea/core/n_vector.h>
+#include <tiny_sea/core/boat_velocity_table.h>
+#include <tiny_sea/core/world_map.h>
+#include <tiny_sea/gsp/neighbors_finder.h>
+#include <tiny_sea/gsp/state_factory.h>
 
 namespace py = pybind11;
 using namespace tiny_sea;
 
 void
-initNVector(py::module& m)
+initGSPNeighborsFinder(py::module& m)
 {
-    py::class_<NVector>(m, "NVector")
-      .def(py::init<>())
-      .def(py::init<double, double, double>())
-      .def_static("from_lat_lon", &NVector::fromLatLon)
-      .def("to_lat_lon", &NVector::toLatLon)
-      .def("distance", &NVector::distance)
-      .def("destination", &NVector::destination);
+    py::class_<gsp::NeighborsFinder>(m, "NeighborsFinder")
+      .def(py::init<const gsp::StateFactory*,
+                    const TimeWorldMap*,
+                    const BoatVelocityTable*,
+                    meter_t>(),
+           py::keep_alive<1, 2>(),
+           py::keep_alive<1, 3>(),
+           py::keep_alive<1, 4>())
+      .def("search", &gsp::NeighborsFinder::search);
 }
 

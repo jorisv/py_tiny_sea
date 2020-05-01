@@ -17,22 +17,31 @@
 // includes
 // pybind11
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 // tiny_sea
-#include <tiny_sea/core/n_vector.h>
+#include <tiny_sea/gsp/close_list.h>
+#include <tiny_sea/gsp/global_shortest_path.h>
+#include <tiny_sea/gsp/neighbors_finder.h>
+#include <tiny_sea/gsp/open_list.h>
+#include <tiny_sea/gsp/state.h>
 
 namespace py = pybind11;
 using namespace tiny_sea;
 
 void
-initNVector(py::module& m)
+initGSPGloablShortestPath(py::module& m)
 {
-    py::class_<NVector>(m, "NVector")
-      .def(py::init<>())
-      .def(py::init<double, double, double>())
-      .def_static("from_lat_lon", &NVector::fromLatLon)
-      .def("to_lat_lon", &NVector::toLatLon)
-      .def("distance", &NVector::distance)
-      .def("destination", &NVector::destination);
+    py::class_<gsp::Result<gsp::State>>(m, "Result")
+      .def_readwrite("state", &gsp::Result<gsp::State>::state);
+
+    m.def("find_global_shortest_path",
+          [](const gsp::State& finalState,
+             gsp::OpenList& openList,
+             gsp::CloseList& closeList,
+             gsp::NeighborsFinder& neighborsFinder) {
+              return gsp::findGlobalShortestPath(
+                finalState, openList, closeList, neighborsFinder);
+          });
 }
 

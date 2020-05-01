@@ -49,6 +49,12 @@ stdLinearListBuilder(const char* name, py::module& m)
       .def(py::init<linear_space>())
       .def("__getitem__",
            py::overload_cast<std::size_t>(&linear_list_builder::safeAt))
+      .def("__setitem__",
+           [](linear_list_builder& b,
+              std::size_t index,
+              const typename linear_list_builder::value_type& v) {
+               b.safeAt(index) = v;
+           })
       .def("build", &linear_list_builder::build);
 }
 

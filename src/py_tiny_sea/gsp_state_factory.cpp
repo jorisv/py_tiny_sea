@@ -19,20 +19,27 @@
 #include <pybind11/pybind11.h>
 
 // tiny_sea
-#include <tiny_sea/core/n_vector.h>
+#include <tiny_sea/gsp/state_factory.h>
 
 namespace py = pybind11;
 using namespace tiny_sea;
 
 void
-initNVector(py::module& m)
+initGSPStateFactory(py::module& m)
 {
-    py::class_<NVector>(m, "NVector")
-      .def(py::init<>())
-      .def(py::init<double, double, double>())
-      .def_static("from_lat_lon", &NVector::fromLatLon)
-      .def("to_lat_lon", &NVector::toLatLon)
-      .def("distance", &NVector::distance)
-      .def("destination", &NVector::destination);
+    py::class_<gsp::StateFactory>(m, "StateFactory")
+      .def(py::init<tiny_sea::time_t,
+                    meter_t,
+                    meter_t,
+                    const NVector&,
+                    velocity_t>())
+      .def(
+        "build",
+        py::overload_cast<const NVector&, tiny_sea::time_t, gsp::DiscretState>(
+          &gsp::StateFactory::build, py::const_))
+      .def("build",
+           py::overload_cast<const NVector&, tiny_sea::time_t>(
+             &gsp::StateFactory::build, py::const_))
+      .def("distance_to_target", &gsp::StateFactory::distanceToTarget);
 }
 

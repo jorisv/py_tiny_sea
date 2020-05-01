@@ -45,7 +45,7 @@ initWorldMap(py::module& m)
 
     py::class_<WorldMap>(m, "WorldMap")
       .def(py::init<const WorldMapGrid&>())
-      .def("worldGrid", &WorldMap::worldGrid);
+      .def("world_grid", &WorldMap::worldGrid);
 
     auto timeParent =
       stdLinearList<tiny_sea::time_t, WorldMap, NullInterpolator<WorldMap>>(
