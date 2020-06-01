@@ -37,7 +37,7 @@ initGSPState(py::module& m);
 void
 initGSPStateFactory(py::module& m);
 void
-initGSPOpenList(py::module& m);
+initAllGSPOpenList(py::module& m);
 void
 initGSPCloseList(py::module& m);
 void
@@ -59,7 +59,7 @@ PYBIND11_MODULE(pytinysea, m)
     initGSPState(gsp);
     initGSPStateFactory(gsp);
     initGSPCloseList(gsp);
-    initGSPOpenList(gsp);
+    initAllGSPOpenList(gsp);
     initGSPNeighborsFinder(gsp);
     initGSPGloablShortestPath(gsp);
 }

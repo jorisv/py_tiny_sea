@@ -20,6 +20,8 @@
 #include <pybind11/stl.h>
 
 // tiny_sea
+#include <tiny_sea/gsp/binary_heap_nu_open_list.h>
+#include <tiny_sea/gsp/binary_heap_open_list.h>
 #include <tiny_sea/gsp/open_list.h>
 
 namespace py = pybind11;
@@ -40,3 +42,38 @@ initGSPOpenList(py::module& m)
     py::class_<gsp::OpenList::Iterator>(m, "OpenListIterator");
 }
 
+void
+initGSPBinaryHeapOpenList(py::module& m)
+{
+    py::class_<gsp::BinaryHeapOpenList>(m, "BinaryHeapOpenList")
+      .def(py::init<>())
+      .def("empty", &gsp::BinaryHeapOpenList::empty)
+      .def("pop", &gsp::BinaryHeapOpenList::pop)
+      .def("insert", &gsp::BinaryHeapOpenList::insert)
+      .def("update", &gsp::BinaryHeapOpenList::update)
+      .def("nr_update", &gsp::BinaryHeapOpenList::nrUpdate);
+
+    py::class_<gsp::BinaryHeapOpenList::Iterator>(m,
+                                                  "BinaryHeapOpenListIterator");
+}
+
+void
+initGSPBinaryHeapNUOpenList(py::module& m)
+{
+    py::class_<gsp::BinaryHeapNUOpenList>(m, "BinaryHeapNUOpenList")
+      .def(py::init<>())
+      .def("empty", &gsp::BinaryHeapNUOpenList::empty)
+      .def("pop", &gsp::BinaryHeapNUOpenList::pop)
+      .def("insert", &gsp::BinaryHeapNUOpenList::insert);
+
+    py::class_<gsp::BinaryHeapNUOpenList::Iterator>(
+      m, "BinaryHeapNUOpenListIterator");
+}
+
+void
+initAllGSPOpenList(py::module& m)
+{
+    initGSPOpenList(m);
+    initGSPBinaryHeapOpenList(m);
+    initGSPBinaryHeapNUOpenList(m);
+}
