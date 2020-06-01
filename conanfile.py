@@ -3,7 +3,7 @@ from conans import ConanFile, tools, CMake
 
 class PyTinySeaConan(ConanFile):
     name = "py_tiny_sea"
-    version = "0.1.0"
+    version = "0.2.0"
     author = "Joris Vaillant (joris.vaillant@gmail.com)"
     license = "GPL-3.0-only"
     url = "https://github.com/jorisv/py_tiny_sea"
@@ -15,7 +15,7 @@ class PyTinySeaConan(ConanFile):
     description = "TinySea python binding"
     settings = "os", "compiler", "build_type", "arch"
     requires = (
-        "tiny_sea/[^0.1]",
+        "tiny_sea/0.2.0",
         "pybind11/[^2.4]",
     )
     generators = "cmake", "virtualrunenv"
