@@ -20,6 +20,8 @@
 #include <pybind11/stl.h>
 
 // tiny_sea
+#include <tiny_sea/gsp/binary_heap_nu_open_list.h>
+#include <tiny_sea/gsp/binary_heap_open_list.h>
 #include <tiny_sea/gsp/close_list.h>
 #include <tiny_sea/gsp/global_shortest_path.h>
 #include <tiny_sea/gsp/neighbors_finder.h>
@@ -38,6 +40,24 @@ initGSPGloablShortestPath(py::module& m)
     m.def("find_global_shortest_path",
           [](const gsp::State& finalState,
              gsp::OpenList& openList,
+             gsp::CloseList& closeList,
+             gsp::NeighborsFinder& neighborsFinder) {
+              return gsp::findGlobalShortestPath(
+                finalState, openList, closeList, neighborsFinder);
+          });
+
+    m.def("find_global_shortest_path",
+          [](const gsp::State& finalState,
+             gsp::BinaryHeapOpenList& openList,
+             gsp::CloseList& closeList,
+             gsp::NeighborsFinder& neighborsFinder) {
+              return gsp::findGlobalShortestPath(
+                finalState, openList, closeList, neighborsFinder);
+          });
+
+    m.def("find_global_shortest_path",
+          [](const gsp::State& finalState,
+             gsp::BinaryHeapNUOpenList& openList,
              gsp::CloseList& closeList,
              gsp::NeighborsFinder& neighborsFinder) {
               return gsp::findGlobalShortestPath(
