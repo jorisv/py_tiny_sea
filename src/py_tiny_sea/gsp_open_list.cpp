@@ -51,7 +51,17 @@ initGSPBinaryHeapOpenList(py::module& m)
       .def("pop", &gsp::BinaryHeapOpenList::pop)
       .def("insert", &gsp::BinaryHeapOpenList::insert)
       .def("update", &gsp::BinaryHeapOpenList::update)
-      .def("nr_update", &gsp::BinaryHeapOpenList::nrUpdate);
+      .def("size", &gsp::BinaryHeapOpenList::size)
+      .def("nr_update", &gsp::BinaryHeapOpenList::nrUpdate)
+      .def("__getitem__", &gsp::BinaryHeapOpenList::at)
+      .def("__len__",
+           [](const gsp::BinaryHeapOpenList& cl) { return cl.size(); })
+      .def(
+        "__iter__",
+        [](gsp::BinaryHeapOpenList& cl) {
+            return py::make_iterator(cl.begin(), cl.end());
+        },
+        py::keep_alive<0, 1>());
 
     py::class_<gsp::BinaryHeapOpenList::Iterator>(m,
                                                   "BinaryHeapOpenListIterator");
@@ -64,7 +74,16 @@ initGSPBinaryHeapNUOpenList(py::module& m)
       .def(py::init<>())
       .def("empty", &gsp::BinaryHeapNUOpenList::empty)
       .def("pop", &gsp::BinaryHeapNUOpenList::pop)
-      .def("insert", &gsp::BinaryHeapNUOpenList::insert);
+      .def("insert", &gsp::BinaryHeapNUOpenList::insert)
+      .def("size", &gsp::BinaryHeapNUOpenList::size)
+      .def("__len__",
+           [](const gsp::BinaryHeapNUOpenList& cl) { return cl.size(); })
+      .def(
+        "__iter__",
+        [](gsp::BinaryHeapNUOpenList& cl) {
+            return py::make_iterator(cl.begin(), cl.end());
+        },
+        py::keep_alive<0, 1>());
 
     py::class_<gsp::BinaryHeapNUOpenList::Iterator>(
       m, "BinaryHeapNUOpenListIterator");
