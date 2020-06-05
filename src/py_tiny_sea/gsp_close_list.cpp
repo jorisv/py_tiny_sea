@@ -32,7 +32,16 @@ initGSPCloseList(py::module& m)
       .def(py::init<>())
       .def("contains", &gsp::CloseList::contains)
       .def("insert", &gsp::CloseList::insert)
-      .def("store", &gsp::CloseList::store);
+      .def("size", &gsp::CloseList::size)
+      .def("store", &gsp::CloseList::store)
+      .def("__getitem__", &gsp::CloseList::at)
+      .def("__len__", [](const gsp::CloseList& cl) { return cl.size(); })
+      .def(
+        "__iter__",
+        [](gsp::CloseList& cl) {
+            return py::make_iterator(cl.begin(), cl.end());
+        },
+        py::keep_alive<0, 1>());
 
     py::class_<gsp::CloseList::Iterator>(m, "CloseListIterator");
 }

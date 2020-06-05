@@ -30,6 +30,7 @@ initGSPStateFactory(py::module& m)
     py::class_<gsp::StateFactory>(m, "StateFactory")
       .def(py::init<tiny_sea::time_t,
                     meter_t,
+                    tiny_sea::time_t,
                     meter_t,
                     const NVector&,
                     velocity_t>())
